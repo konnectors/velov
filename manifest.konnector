@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "Velo'v",
+  "name": "Vélo'v",
   "type": "konnector",
   "language": "node",
   "icon": "icon.svg",
@@ -34,7 +34,10 @@
     },
     "accounts": {
       "type": "io.cozy.accounts"
-    }
+    },
+    "carbon_copy": {
+      "type": "io.cozy.certified.carbon_copy"
+    },
   },
   "developer": {
     "name": "Cozy Cloud",
@@ -43,8 +46,8 @@
   "langs": ["fr", "en"],
   "locales": {
     "fr": {
-      "short_description": "Récupère la liste de livres",
-      "long_description": "Récupère la liste de livre sur le site exemple",
+      "short_description": "Récupère vos factures Vélo'v",
+      "long_description": "Vélo'v est un système de vélos en libre-service mis en place dans la métropole de Lyon depuis 2005.\n\n<br>**Connectez votre compte Velov' à votre Cozy pour :**\n\n- récupérer vos factures\n- suivre vos dépenses\n\n**Accédez directement à vos documents dans votre Drive personnel**\n\nEn connectant votre compte Vélo'v, votre Cozy crée automatiquement un dossier dans **Drive > Administratif > Vélo'v**.\nVos factures sont à portée de main et toujours accessibles !\n\n<br>**Suivez le montant de vos dépenses avec Banks**\n\nLes attestations récupérées sont automatiquement liées aux opérations bancaires Vélo'v associées à votre compte si vous utilisez l’application Banks. Finis les maux de tête à faire les comptes !\n\n<br>**Sauvegardez vos identifiants avec pass**\n\nEn installant le gestionnaire de mots de passe, vos identifiants sont sauvegardés une bonne fois pour toutes pour vous faciliter la connexion au site Velo'v. Adieu les mots de passe oubliés !\n\n<br>**Gestion de vos factures dans Mes Papiers**\n\nLes factures récupérées par le service Vélo'v seront accessible et rangées dans votre application Mes Papiers.\n\n<br>**Configuration**\n\nPour connecter votre compte, il vous suffit de renseigner dans les champs :\n\n- votre identifiant\n- votre mot de passe créé pour accéder à l'app Vélo'v\n\nUne fois connecté, votre Cozy se connectera régulièrement à votre compte Vélo'v pour récupérer les nouveaux éléments et les historiser dans un dossier Vélo'v dans Drive.\n\n<br>Si vous déconnectez votre compte Vélo'v, les informations déjà sauvegardées dans votre Cozy restent disponibles. Vous pouvez les supprimer manuellement par ailleurs.",
       "permissions": {
         "bank operations": {
           "description": "Utilisé pour relier les factures à des operations bancaires"
@@ -57,11 +60,14 @@
         },
         "accounts": {
           "description": "Utilisé pour obtenir les données du compte"
+        },
+        "carbon_copy": {
+          "description": "Utilisé pour certifier que vos fichiers sont copie conforme avec les documents d'origine"
         }
       }
     },
     "en": {
-      "short_description": "Fetch a list of books",
+      "short_description": "Fetch your bills from your Vélo'v acccount",
       "long_description": "Fetch a list of books from the example website",
       "permissions": {
         "bank operations": {
@@ -75,10 +81,24 @@
         },
         "accounts": {
           "description": "Required to get the account's data"
-        }
+        },
+        "carbon_copy": {
+          "description": "Required for carbon copy documents"
+        },
       }
     }
   },
   "banksTransactionRegExp": "\\bbooks\\b",
-  "manifest_version": "2"
+  "manifest_version": "2",
+  "qualification_labels": [
+    "water_invoice"
+  ],
+  "features": [
+    "LOGIN_OK",
+    "BILLS",
+    "VENDOR_REF",
+    "DOC_QUALIFICATION_V2",
+    "SENTRY_V2",
+    "CARBON_COPY"
+  ],
 }
