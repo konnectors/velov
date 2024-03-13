@@ -20,6 +20,9 @@ const requestJSON = requestFactory({
   jar: true
 })
 
+const VENDOR = 'velov'
+const BASE_URL = 'https://api.cyclocity.fr'
+
 module.exports = new BaseKonnector(start)
 
 async function start(fields) {
@@ -35,9 +38,7 @@ async function start(fields) {
   const bills = await getBills(loginInfos, fields)
   console.log(bills)
 
-
-  //await saveBills(bills, fields, {
-  await saveBills([bills[2]], fields, {
+  await saveBills(bills, fields, {
     contentType: 'application/pdf',
     fileIdAttributes: ['vendorRef']
   })
@@ -46,7 +47,7 @@ async function start(fields) {
 async function authenticate(username, password) {
   // Requesting a Oauth token for GrandLyon offer
   const clientTokenReq = await requestJSON({
-    uri: 'https://api.cyclocity.fr/auth/environments/PRD/client_tokens',
+    uri: `${BASE_URL}/auth/environments/PRD/client_tokens`,
     method: 'POST',
     json: {
       code: 'vls.web.lyon:PRD',
@@ -57,7 +58,7 @@ async function authenticate(username, password) {
 
   // Login in grandLyon api, will follow the redirect uri
   const loginReq = await requestJSON({
-    uri: 'https://api.cyclocity.fr/identities/users/login',
+    uri: `${BASE_URL}/identities/users/login`,
     method: 'GET',
     qs: {
       takn: clientTokenReq.accessToken,
@@ -72,7 +73,7 @@ async function authenticate(username, password) {
 
   // Login to cyclocity API
   const loginReq2 = await requestJSON({
-    uri: 'https://api.cyclocity.fr/identities/token',
+    uri: `${BASE_URL}/identities/token`,
     method: 'POST',
     qs: {
       grant_type: 'authorization_code',
@@ -87,33 +88,18 @@ async function authenticate(username, password) {
 
   // Requesting the id associated to mail needed later
   const accountId = await requestJSON({
-    uri: 'https://api.cyclocity.fr/contracts/lyon/accounts/fabien.bassereau@gmail.com/id',
+    uri: `${BASE_URL}/contracts/lyon/accounts/${username}/id`,
     method: 'GET',
     headers: {
       Identity: identityToken
     }
   })
 
-/*
-  const transactionsUri = `https://api.cyclocity.fr/contracts/lyon/accounts/${accountId}/transactions`
-  const transactions = await requestJSON({
-    uri: transactionsUri,
-    headers: {
-      Authorization: `Taknv1 ${clientTokenReq.accessToken}`,
-      Identity: identityToken,
-      accept: 'application/vnd.transaction.v1+json',
-      //'Content-Type': 'application/vnd.transaction.v1+json'
-
-    }
-  })
-  console.log(transactions)
-  */
-
   return { identityToken, authorizationToken, accountId }
 }
 
 async function getBills(loginInfos) {
-  const transactionsUri = `https://api.cyclocity.fr/contracts/lyon/accounts/${loginInfos.accountId}/transactions`
+  const transactionsUri = `${BASE_URL}/contracts/lyon/accounts/${loginInfos.accountId}/transactions`
   const transactions = await requestJSON({
     uri: transactionsUri,
     headers: {
@@ -129,10 +115,11 @@ async function getBills(loginInfos) {
     const amount = transaction.amount / 100 // Raw amount in cents of euros
     const date = new Date(transaction.createdAt)
     const bill = {
+      vendor: VENDOR,
       amount,
       currency: 'EUR',
       date,
-      fileurl: `https://api.cyclocity.fr/contracts/lyon/accounts/${loginInfos.accountId}/transactions/${transaction.id}/bill`,
+      fileurl: `${BASE_URL}/contracts/lyon/accounts/${loginInfos.accountId}/transactions/${transaction.id}/bill`,
       filename: `${utils.formatDate(date)}_Vélo'v_${amount.toFixed(2)}EUR_${
         transaction.paymentRef
       }.pdf`,
