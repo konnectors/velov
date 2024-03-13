@@ -8,7 +8,7 @@
   "source": "git@github.com:konnectors/velov.git",
   "editor": "Cozy",
   "vendor_link": "https://velov.grandlyon.com/fr/home",
-  "categories": ["others"],
+  "categories": ["transport"],
   "fields": {
     "login": {
       "type": "text"
