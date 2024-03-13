@@ -1,17 +1,11 @@
 const {
   BaseKonnector,
+  cozyClient,
   requestFactory,
   saveBills,
   log,
   utils
 } = require('cozy-konnector-libs')
-
-const request = requestFactory({
-  debug: true,
-  cheerio: true,
-  json: false,
-  jar: true
-})
 
 const requestJSON = requestFactory({
   cheerio: false,
@@ -22,6 +16,9 @@ const requestJSON = requestFactory({
 
 const VENDOR = 'velov'
 const BASE_URL = 'https://api.cyclocity.fr'
+// Importing models to get qualification by label
+const models = cozyClient.new.models
+const { Qualification } = models.document
 
 module.exports = new BaseKonnector(start)
 
@@ -38,7 +35,7 @@ async function start(fields) {
   const bills = await getBills(loginInfos, fields)
   console.log(bills)
 
-  await saveBills(bills, fields, {
+  await this.saveBills(bills, fields, {
     contentType: 'application/pdf',
     fileIdAttributes: ['vendorRef']
   })
@@ -124,6 +121,15 @@ async function getBills(loginInfos) {
         transaction.paymentRef
       }.pdf`,
       vendorRef: transaction.paymentRef,
+      fileAttributes: {
+        metadata: {
+          issueDate: date,
+          datetime: date,
+          datetimeLabel: `issueDate`,
+          carbonCopy: true,
+          qualification: Qualification.getByLabel('transport_invoice')
+        }
+      },
       requestOptions: {
         headers: {
           Authorization: loginInfos.authorizationToken,

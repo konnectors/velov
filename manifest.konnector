@@ -37,7 +37,7 @@
     },
     "carbon_copy": {
       "type": "io.cozy.certified.carbon_copy"
-    },
+    }
   },
   "developer": {
     "name": "Cozy Cloud",
@@ -84,7 +84,7 @@
         },
         "carbon_copy": {
           "description": "Required for carbon copy documents"
-        },
+        }
       }
     }
   },
@@ -100,5 +100,5 @@
     "DOC_QUALIFICATION_V2",
     "SENTRY_V2",
     "CARBON_COPY"
-  ],
+  ]
 }
