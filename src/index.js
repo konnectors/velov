@@ -2,7 +2,6 @@ const {
   BaseKonnector,
   cozyClient,
   requestFactory,
-  saveBills,
   log,
   utils
 } = require('cozy-konnector-libs')
@@ -11,7 +10,10 @@ const requestJSON = requestFactory({
   cheerio: false,
   json: true,
   debug: true,
-  jar: true
+  jar: true,
+  headers: {
+    'Accept-Language': 'fr' // Mandatory to have pdf in French
+  }
 })
 
 const VENDOR = 'velov'
@@ -33,11 +35,11 @@ async function start(fields) {
   log('info', 'Successfully logged in')
 
   const bills = await getBills(loginInfos, fields)
-  console.log(bills)
 
   await this.saveBills(bills, fields, {
     contentType: 'application/pdf',
-    fileIdAttributes: ['vendorRef']
+    fileIdAttributes: ['vendorRef'],
+    identifiers: [VENDOR]
   })
 }
 
@@ -106,7 +108,6 @@ async function getBills(loginInfos) {
     }
   })
 
-  console.log(transactions)
   const bills = []
   for (const transaction of transactions) {
     const amount = transaction.amount / 100 // Raw amount in cents of euros
@@ -136,7 +137,7 @@ async function getBills(loginInfos) {
           Identity: loginInfos.identityToken,
           accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/vnd.transaction.v1+json',
-          //'Accept-Language': 'fr'
+          'Accept-Language': 'fr' // Mandatory to have pdf in French
         }
       }
     }
