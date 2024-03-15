@@ -4,7 +4,7 @@
   "type": "konnector",
   "language": "node",
   "icon": "icon.svg",
-  "slug": "template",
+  "slug": "velov",
   "source": "git@github.com:konnectors/velov.git",
   "editor": "Cozy",
   "vendor_link": "https://velov.grandlyon.com/fr/home",
