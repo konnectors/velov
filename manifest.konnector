@@ -91,7 +91,7 @@
   "banksTransactionRegExp": "\\bbooks\\b",
   "manifest_version": "2",
   "qualification_labels": [
-    "water_invoice"
+    "transport_invoice"
   ],
   "features": [
     "LOGIN_OK",
