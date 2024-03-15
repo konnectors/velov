@@ -4,7 +4,7 @@
   "description": "",
   "repository": {
     "type": "git",
-    "url": "git@github.com:konnectors/cozy-konnector-velov.git"
+    "url": "git@github.com:konnectors/velov.git"
   },
   "keywords": [],
   "author": "Cozy Cloud",
