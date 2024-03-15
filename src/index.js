@@ -1,8 +1,11 @@
+
+
 const {
   BaseKonnector,
   cozyClient,
   requestFactory,
   log,
+  errors,
   utils
 } = require('cozy-konnector-libs')
 
@@ -71,18 +74,28 @@ async function authenticate(username, password) {
   const OauthCode = loginReq.request.uri.query.split('=')[1]
 
   // Login to cyclocity API
-  const loginReq2 = await requestJSON({
-    uri: `${BASE_URL}/identities/token`,
-    method: 'POST',
-    qs: {
-      grant_type: 'authorization_code',
-      code: OauthCode,
-      redirect_uri: 'https://velov.grandlyon.com/openid_connect_login' // Mandatory
-    },
-    headers: {
-      Authorization: authorizationToken
+  let loginReq2
+  try {
+    loginReq2 = await requestJSON({
+      uri: `${BASE_URL}/identities/token`,
+      method: 'POST',
+      qs: {
+        grant_type: 'authorization_code',
+        code: OauthCode,
+        redirect_uri: 'https://velov.grandlyon.com/openid_connect_login' // Mandatory
+      },
+      headers: {
+        Authorization: authorizationToken
+      }
+    })
+  } catch (e) {
+    if (e.statusCode === 400) {
+      log('error', e)
+      throw new Error(errors.LOGIN_FAILED)
+    } else {
+      throw e
     }
-  })
+  }
   const identityToken = loginReq2.id_token
 
   // Requesting the id associated to mail needed later
