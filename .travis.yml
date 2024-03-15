@@ -6,6 +6,8 @@ env:
   global:
   - MATTERMOST_CHANNEL=publication
   - secure: HpT4scMm7DdtRPISXOVwqlIOsHh68VOyU3OBarwIFkAHsMX7i2LEZWcCjRtCntWxMBl1Ruwq46AewHx6qRw87Pw47S6KHZQLJie1vWY3HdnBVL2EZwgVIuG/RC8JtuDBeSbCtxdAwWIsPD/9t3FqBYfvssn/94j4+S/w404eGpCOQg78kyeD8wLUvlp5Xp5ZRWkdR0F43KNXK+fh+/zpA+3TV0Sg6shQT0eUzzjWbrPfsrmg1S1Gx0wRa6OXXiQeG06pkaumtiSP0Q0ijAeNuVW77jbe27wXuNDm681ZbTlZTn3S4iFQ62zdEgWnp6co8DE53VqVOAjIyzGQ1E7kst3h7/XmNs2DfbhCa8p1a8OPrJVVUku4DyYjk91gRSmY56Fyz3YdHKhMnj4X/x6aVM+IYrbsmPvzX58ijGl8E9G1hx6/DfL3r5VE4G7bhwds80QlywnwNfIAYXAd7hhdTeeuoh710+ZriWJaPwiIjnmlK6y4gb0mw581vXS3wpqAGlwgGBjZgX6y1dwVmZiSTmu5QtfIFMwM0g1jw8L7LgNfFY7hltMxfKvWLQrZVoQJ5ardiq5qvKY1Cyyaeob9UYEBQWXNCYdyQTkf58KxrvxSVt6h+AoyOc8l98NS/il38DTJJQ8G2ek88fLY3cACWSrn5c0C3lJZAMPYmb7ow1M=
+  # MATTERMOST HOOK URL
+  - secure: aRLJ79vEZdvI8X49rLIhH6WGxTj8IUN6WstEVnncGkWp+KnlpX8uws/dkH67YA7GIFut1HaWmc2Z8EeQQOaX8/IZth4AX+rHSHhnIp6DZwOL/kF3e2EF5vpXsR3BCYejAqw0tvNeh7G/+1e9N/Xs5OrL6Y/0WA6nDgST8k6NZjtlQRkyv/l9llecxNEh0Qoy9DMY3vHLCtP9SOYDf4qFMY1HwDnnDfOptjAGmAU1wpF3YZkAdWhF5vjitsMZIf7Xcl78GMLdY06F/YLUv/8rbRgNPc3cr1WUqt8is8yfkAOEruwd/bnxiuAGteFVVOCp2l1ZTI5t3OGpYNYt/OjZGPTZb2RBbtnB+anYnC5yBa1fTEFxA90kzpk4p6ZKE5IWVHvDc7fFQB8i8Wj/ln8iJfLzrRHSOSUkyqX7Iq620YuRbCBgrdWlLAcHnMTc1T93d8scPcEuZTVgDeBwFPrE2nTyyFAiTmYF4qiG6szLMgGCHuCOV+7/dYKZdQ+XbKaniP98il6LwGV+GNiKsY6IptdyeqQhFEqNja8c1DA0Y8I40Pb3qj+UR315DHbH5Le0k1xliJfwqfEcYeOSSoygXC4rJxQxzg3X2ECTd2A1iXByOBJjk/TeJgDh3iJkNUJ4Jjqo1ZKW9ZBpp2Ojnbpwtgp17c7EOxWOg0m4cuxTjTw=
 cache:
   yarn: true
   directories:
@@ -27,7 +29,7 @@ deploy:
     - main
 - provider: script
   skip-cleanup: true
-  script: DEPLOY_BRANCH=build yarn deploy && yarn cozyPublish
+  script: DEPLOY_BRANCH=build yarn deploy && yarn cozyPublish --postpublish mattermost
   on:
     tags: true
 before_install:
