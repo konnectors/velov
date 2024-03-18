@@ -68,7 +68,7 @@
     },
     "en": {
       "short_description": "Fetch your bills from your Vélo'v acccount",
-      "long_description": "Fetch a list of books from the example website",
+      "long_description": "Fetch your bills from your Vélo'v acccount",
       "permissions": {
         "bank operations": {
           "description": "Required to link bank operations to bills"
