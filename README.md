@@ -11,9 +11,9 @@ What's Cozy?
 What is this konnector about ?
 ------------------------------
 
-This konnector retrieves your __SOME_DATA__ and __SOME_OTHER_DATA__ from __SERVICE__
+This konnector retrieves your bills from Vélo'v
 
-__YOUR_DESCRIPTION_HERE__
+Vélov is a bike rent system in Lyon metropolis
 
 ### Open a Pull-Request
 
@@ -46,7 +46,7 @@ This connector uses [cozy-konnector-libs](https://github.com/cozy/cozy-konnector
 
 ### Maintainer
 
-The lead maintainer for this konnector is __YOUR_NAME__
+The lead maintainer for this konnector is Cozy
 
 
 ### Get in touch
@@ -63,7 +63,7 @@ You can reach the Cozy Community by:
 License
 -------
 
-__YOUR_KONNECTOR_NAME__ is developed by __YOUR_NAME__ and distributed under the [AGPL v3 license][agpl-3.0].
+Vélov is developed by Cozy and distributed under the [AGPL v3 license][agpl-3.0].
 
 [cozy]: https://cozy.io "Cozy Cloud"
 [agpl-3.0]: https://www.gnu.org/licenses/agpl-3.0.html
