@@ -133,9 +133,9 @@ async function getBills(loginInfos) {
       currency: 'EUR',
       date,
       fileurl: `${BASE_URL}/contracts/lyon/accounts/${loginInfos.accountId}/transactions/${transaction.id}/bill`,
-      filename: `${utils.formatDate(date)}_Vélo'v_${amount.toFixed(2)}EUR_${
-        transaction.paymentRef
-      }.pdf`,
+      filename: `${utils.formatDate(date)}_Vélo'v_${amount.toFixed(
+        2
+      )}EUR_${transaction.paymentRef.slice(-4)}.pdf`,
       vendorRef: transaction.paymentRef,
       fileAttributes: {
         metadata: {
