@@ -30,11 +30,22 @@ const { Qualification } = models.document
 module.exports = new BaseKonnector(start)
 
 async function start(fields) {
+  // First fetching offer client key
+  const homeReq = await requestJSON('https://velov.grandlyon.com/fr/home')
+  const nameMainJs = homeReq.match(/src="(main\.(.*)\.js)"/)[1]
+  log('debug', `Main js file detected : ${nameMainJs}`)
+  const mainJsReq = await requestJSON(
+    `https://velov.grandlyon.com/${nameMainJs}`
+  )
+  const offerClientKey = mainJsReq.match(/clientKey:"(.*?)"/)[1]
+  log('debug', `Offer client key detected : ${offerClientKey}`)
+
   log('info', 'Authenticating ...')
   await this.deactivateAutoSuccessfulLogin()
   const loginInfos = await authenticate.bind(this)(
     fields.login,
-    fields.password
+    fields.password,
+    offerClientKey
   )
   await this.notifySuccessfulLogin()
   log('info', 'Successfully logged in')
@@ -48,14 +59,14 @@ async function start(fields) {
   })
 }
 
-async function authenticate(username, password) {
+async function authenticate(username, password, offerClientKey) {
   // Requesting a Oauth token for GrandLyon offer
   const clientTokenReq = await requestJSON({
     uri: `${BASE_URL}/auth/environments/PRD/client_tokens`,
     method: 'POST',
     json: {
       code: 'vls.web.lyon:PRD',
-      key: 'c3d9f5c22a9157a7cc7fe0e38269573bdd2f13ec48f867360ecdcbd35b196f87'
+      key: offerClientKey
     }
   })
   const authorizationToken = `Taknv1 ${clientTokenReq.accessToken}`
