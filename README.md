@@ -1,4 +1,4 @@
-[Cozy][cozy] __YOUR_SUPER_NEW_KONNECTOR_NAME__
+[Cozy][cozy] Nextcloud connector
 =======================================
 
 What's Cozy?
