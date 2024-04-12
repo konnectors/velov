@@ -55,7 +55,8 @@ async function start(fields) {
   await this.saveBills(bills, fields, {
     contentType: 'application/pdf',
     fileIdAttributes: ['vendorRef'],
-    identifiers: [VENDOR]
+    identifiers: [VENDOR],
+    validateFile: true
   })
 }
 
