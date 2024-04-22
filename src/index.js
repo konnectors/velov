@@ -14,7 +14,7 @@ const {
 const requestJSON = requestFactory({
   cheerio: false,
   json: true,
-  debug: true,
+  debug: false,
   jar: true,
   headers: {
     'Accept-Language': 'fr' // Mandatory to have pdf in French
@@ -56,8 +56,18 @@ async function start(fields) {
     contentType: 'application/pdf',
     fileIdAttributes: ['vendorRef'],
     identifiers: [VENDOR],
-    validateFile: true
+    validateFile,
+    retry: 2
   })
+}
+
+function validateFile(doc) {
+  const size = doc.size
+  if (size < 900) {
+    log('warn', 'BAD_FILE_SIZE')
+    return false
+  }
+  return true
 }
 
 async function authenticate(username, password, offerClientKey) {
